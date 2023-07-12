@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { env } from '@/utils/env.mjs';
+import { env } from '@/lib/env.mjs';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import GithubProvider from 'next-auth/providers/github';
 import type { AuthOptions } from 'next-auth';
@@ -13,10 +13,12 @@ export const authOptions: AuthOptions = {
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
   ],
+  pages: {
+    signIn: '/login',
+  },
   session: {
     strategy: 'jwt',
   },
-  secret: env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ token, session }) {
       if (token) {
