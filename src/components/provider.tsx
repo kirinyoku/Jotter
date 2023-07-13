@@ -13,7 +13,7 @@ interface ProviderProps {
 const Provider: FC<ProviderProps> = ({ children, session }) => {
   return (
     <SessionProvider session={session}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         {children}
       </ThemeProvider>
     </SessionProvider>
