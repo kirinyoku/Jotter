@@ -2,7 +2,7 @@ import Header from '@/components/header';
 
 export default function Home() {
   return (
-    <main className="container relative">
+    <main className="relative">
       <Header />
     </main>
   );

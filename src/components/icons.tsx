@@ -13,18 +13,18 @@ import {
   Laptop,
   Loader2,
   LucideProps,
-  Moon,
+  LogOut,
   MoreVertical,
   Pizza,
   Plus,
   Settings,
-  SunMedium,
   Trash,
   Twitter,
   User,
   X,
   type Icon as LucideIcon,
 } from 'lucide-react';
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
 
 export type Icon = LucideIcon;
 
@@ -47,9 +47,10 @@ export const Icons = {
   arrowRight: ArrowRight,
   help: HelpCircle,
   pizza: Pizza,
-  sun: SunMedium,
-  moon: Moon,
+  sun: SunIcon,
+  moon: MoonIcon,
   laptop: Laptop,
+  logout: LogOut,
   google: ({ ...props }: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
