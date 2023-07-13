@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
 import Provider from '@/components/provider';
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(inter.className, '"min-h-screen antialiased')}>
         <Provider session={undefined}>{children}</Provider>
         <Toaster />
       </body>
