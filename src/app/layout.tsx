@@ -21,7 +21,7 @@ interface RootLayoutProps {
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
-      <body className={cn(inter.className, '"min-h-screen antialiased relative')}>
+      <body className={cn(inter.className, 'min-h-screen bg-background antialiased')}>
         <Provider session={undefined}>
           {children}
           <Toaster />

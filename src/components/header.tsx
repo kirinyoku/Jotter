@@ -17,7 +17,7 @@ const Header: FC<HeaderProps> = ({ className, ...props }) => {
       <header className={cn('border-b', className)} {...props}>
         <div className="flex justify-between items-center py-2 container">
           <Link href="/">
-            <h1 className="text-3xl uppercase font-serif">notes</h1>
+            <h1 className="text-3xl uppercase font-serif">Jotter</h1>
           </Link>
           <UserMenu user={session.data.user} />
         </div>
@@ -28,7 +28,7 @@ const Header: FC<HeaderProps> = ({ className, ...props }) => {
   return (
     <header className={cn('border-b', className)}>
       <div className="flex justify-between items-center py-2 container">
-        <h1 className="text-3xl uppercase font-serif">notes</h1>
+        <h1 className="text-3xl uppercase font-serif">Jotter</h1>
       </div>
     </header>
   );

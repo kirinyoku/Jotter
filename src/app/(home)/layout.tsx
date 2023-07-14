@@ -7,10 +7,10 @@ interface HomeLayoutProps {
 
 const HomeLayout: FC<HomeLayoutProps> = ({ children }) => {
   return (
-    <div>
+    <>
       <Header />
       {children}
-    </div>
+    </>
   );
 };
 export default HomeLayout;
