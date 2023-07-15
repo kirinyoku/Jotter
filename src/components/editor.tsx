@@ -15,6 +15,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import EditorJS from '@editorjs/editorjs';
 import TextareaAutosize from 'react-textarea-autosize';
+import useMutationDeleteNote from '@/hooks/useMutationDeleteNote';
 
 import '@/styles/editor.css';
 
@@ -33,8 +34,32 @@ const Editor: FC<EditorProps> = ({ note }) => {
   const ref = useRef<EditorJS>();
 
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [isPrivate, setIsPrivate] = useState<boolean>(note.isPrivate);
+
+  const { mutate: deleteNoteById } = useMutationDeleteNote();
+
+  const deleteNote = (noteId: string) => {
+    setIsDeleting(true);
+    deleteNoteById(noteId, {
+      onSuccess: () => {
+        router.replace('/');
+        toast({
+          title: 'Note deleted.',
+          description: 'Your note has been successfully deleted.',
+          variant: 'default',
+        });
+      },
+      onError: () =>
+        toast({
+          title: 'Something went wrong.',
+          description: 'Your note was not deleted. Please try again.',
+          variant: 'destructive',
+        }),
+      onSettled: () => setIsDeleting(false),
+    });
+  };
 
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default;
@@ -154,10 +179,19 @@ const Editor: FC<EditorProps> = ({ note }) => {
               )}
             </Button>
           </div>
-          <button type="submit" className={cn(buttonVariants())}>
-            {isSaving && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-            <span>Save</span>
-          </button>
+          <div className="flex gap-2">
+            <button type="submit" className={cn(buttonVariants())}>
+              {isSaving && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+              <span>Save</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => deleteNote(note.id)}
+              className={cn(buttonVariants({ variant: 'destructive' }))}>
+              {isDeleting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+              <span>Delete</span>
+            </button>
+          </div>
         </div>
         <div className="prose prose-stone mx-auto w-[800px] dark:prose-invert">
           <TextareaAutosize
