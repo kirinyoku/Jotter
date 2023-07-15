@@ -25,8 +25,6 @@ const EditorPage: FC<EditorPageProps> = async ({ params }) => {
     redirect('/login');
   }
 
-  console.log(params.noteId, user.id);
-
   const note = await getNoteForUser(params.noteId, user.id);
 
   if (!note) {

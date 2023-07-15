@@ -21,7 +21,7 @@ const ThemeToggle: FC<ThemeToggleProps> = ({ className, ...props }) => {
   return (
     <button
       onClick={() => changeTheme()}
-      className={cn('flex items-center gap-2 cursor-pointer', className)}
+      className={cn('flex items-center gap-2 cursor-pointer w-full', className)}
       {...props}>
       {theme === 'light' ? <Icons.sun className="h-4 w-4" /> : <Icons.moon className="h-4 w-4" />}
       <span className="capitalize">{theme + ' mode'}</span>

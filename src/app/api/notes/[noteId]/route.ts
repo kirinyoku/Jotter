@@ -6,7 +6,7 @@ import { notePatchSchema } from '@/lib/validations/note';
 
 const routeContextSchema = z.object({
   params: z.object({
-    postId: z.string(),
+    noteId: z.string(),
   }),
 });
 
@@ -16,14 +16,14 @@ export async function DELETE(req: Request, context: z.infer<typeof routeContextS
     const { params } = routeContextSchema.parse(context);
 
     // Check if the user has access to this post.
-    if (!(await verifyCurrentUserHasAccessToPost(params.postId))) {
+    if (!(await verifyCurrentUserHasAccessToPost(params.noteId))) {
       return new Response(null, { status: 403 });
     }
 
     // Delete the post.
     await db.note.delete({
       where: {
-        id: params.postId as string,
+        id: params.noteId as string,
       },
     });
 
@@ -43,7 +43,7 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
     const { params } = routeContextSchema.parse(context);
 
     // Check if the user has access to this post.
-    if (!(await verifyCurrentUserHasAccessToPost(params.postId))) {
+    if (!(await verifyCurrentUserHasAccessToPost(params.noteId))) {
       return new Response(null, { status: 403 });
     }
 
@@ -53,13 +53,15 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
 
     // Update the post.
     // TODO: Implement sanitization for content.
+
     await db.note.update({
       where: {
-        id: params.postId,
+        id: params.noteId,
       },
       data: {
         title: body.title,
         content: body.content,
+        isPrivate: body.isPrivate,
       },
     });
 
@@ -68,7 +70,6 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });
     }
-
     return new Response(null, { status: 500 });
   }
 }

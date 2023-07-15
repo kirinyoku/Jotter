@@ -21,8 +21,10 @@ export async function GET() {
       select: {
         id: true,
         title: true,
-        isPrivate: true,
+        content: true,
+        updatedAt: true,
         createdAt: true,
+        isPrivate: true,
       },
       where: {
         authorId: user.id,

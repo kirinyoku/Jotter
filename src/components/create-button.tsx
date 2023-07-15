@@ -6,6 +6,8 @@ import { Icons } from '@/components/icons';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 import { ButtonProps, buttonVariants } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@radix-ui/react-tooltip';
+import { TooltipProvider } from './ui/tooltip';
 
 interface NoteCreateButtonProps extends ButtonProps {}
 
@@ -13,7 +15,7 @@ const NoteCreateButton: FC<NoteCreateButtonProps> = ({ className, variant, ...pr
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  async function onClick() {
+  const onClick = async () => {
     setIsLoading(true);
 
     const response = await fetch('/api/notes', {
@@ -49,27 +51,37 @@ const NoteCreateButton: FC<NoteCreateButtonProps> = ({ className, variant, ...pr
     router.refresh();
 
     router.push(`/editor/${post.id}`);
-  }
+  };
 
   return (
-    <button
-      onClick={onClick}
-      className={cn(
-        buttonVariants({ variant: 'secondary' }),
-        'rounded-full m-2 h-fit p-2',
-        {
-          'cursor-not-allowed opacity-60': isLoading,
-        },
-        className,
-      )}
-      disabled={isLoading}
-      {...props}>
-      {isLoading ? (
-        <Icons.spinner className="h-7 w-7 animate-spin" />
-      ) : (
-        <Icons.add className="h-7 w-7" />
-      )}
-    </button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger
+          onClick={onClick}
+          className={cn(
+            buttonVariants({ variant: 'secondary' }),
+            'rounded-full m-2 h-fit p-2',
+            {
+              'cursor-not-allowed opacity-60': isLoading,
+            },
+            className,
+          )}
+          disabled={isLoading}
+          {...props}>
+          {isLoading ? (
+            <Icons.spinner className="h-7 w-7 animate-spin" />
+          ) : (
+            <>
+              <Icons.add className="h-7 w-7" />
+              <span className="sr-only">create a new note</span>
+            </>
+          )}
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Create a new note</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

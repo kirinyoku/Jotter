@@ -8,7 +8,7 @@ import { Icons } from '@/components/icons';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { notePatchSchema } from '@/lib/validations/note';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
@@ -34,6 +34,7 @@ const Editor: FC<EditorProps> = ({ note }) => {
 
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [isPrivate, setIsPrivate] = useState<boolean>(note.isPrivate);
 
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default;
@@ -99,6 +100,7 @@ const Editor: FC<EditorProps> = ({ note }) => {
       body: JSON.stringify({
         title: data.title,
         content: blocks,
+        isPrivate,
       }),
     });
 
@@ -134,7 +136,23 @@ const Editor: FC<EditorProps> = ({ note }) => {
                 Back
               </>
             </Link>
-            <p className="text-sm text-muted-foreground">{note.isPrivate ? 'Private' : 'Public'}</p>
+            <Button
+              onClick={() => setIsPrivate((prev) => !prev)}
+              type="button"
+              variant="ghost"
+              className="text-sm text-muted-foreground">
+              {isPrivate ? (
+                <span className="flex items-center justify-between gap-1">
+                  {'Private'}
+                  <Icons.lock className="h-4 w-4" />
+                </span>
+              ) : (
+                <span className="flex items-center justify-between gap-1">
+                  {'Public'}
+                  <Icons.unlock className="h-4 w-4" />
+                </span>
+              )}
+            </Button>
           </div>
           <button type="submit" className={cn(buttonVariants())}>
             {isSaving && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}

@@ -14,6 +14,7 @@ import {
   Loader2,
   LucideProps,
   LogOut,
+  Lock,
   MoreVertical,
   Moon,
   Pizza,
@@ -24,6 +25,7 @@ import {
   Twitter,
   User,
   X,
+  Unlock,
   type Icon as LucideIcon,
 } from 'lucide-react';
 
@@ -52,6 +54,7 @@ export const Icons = {
   moon: Moon,
   laptop: Laptop,
   logout: LogOut,
+  lock: Lock,
   google: ({ ...props }: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -104,4 +107,5 @@ export const Icons = {
   ),
   twitter: Twitter,
   check: Check,
+  unlock: Unlock,
 };
