@@ -23,9 +23,9 @@ const CardList: FC = () => {
       <h2 className="text-5xl font-semibold uppercase">my notes</h2>
       {isLoading ? (
         <>
-          <Skeleton className="w-full h-20 rounded-none" />
-          <Skeleton className="w-full h-20 rounded-none" />
-          <Skeleton className="w-full h-20 rounded-none" />
+          <Skeleton className="w-full h-20 rounded-none bg-card" />
+          <Skeleton className="w-full h-20 rounded-none bg-card" />
+          <Skeleton className="w-full h-20 rounded-none bg-card" />
         </>
       ) : notes ? (
         <>

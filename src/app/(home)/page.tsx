@@ -8,7 +8,7 @@ const Home: FC<HomeProps> = ({}) => {
   return (
     <main className="container h-full">
       <CardList />
-      <div className="container fixed z-10 bottom-0 left-[50%] translate-x-[-50%] flex justify-end items-center mx-auto py-4">
+      <div className="container fixed z-50 bottom-0 left-[50%] translate-x-[-50%] flex justify-end items-center mx-auto py-4">
         <NoteCreateButton />
       </div>
     </main>
