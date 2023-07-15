@@ -20,7 +20,14 @@ const CardList: FC = () => {
 
   return (
     <div className="grid gap-2 py-2">
-      {!isLoading && notes ? (
+      <h2 className="text-5xl font-semibold uppercase">my notes</h2>
+      {isLoading ? (
+        <>
+          <Skeleton className="w-full h-20 rounded-none" />
+          <Skeleton className="w-full h-20 rounded-none" />
+          <Skeleton className="w-full h-20 rounded-none" />
+        </>
+      ) : notes ? (
         <>
           {sortArrayByUpdateTime(notes).map((note) => (
             <NoteCard key={note.id} note={note} />
@@ -28,9 +35,7 @@ const CardList: FC = () => {
         </>
       ) : (
         <>
-          <Skeleton className="w-full h-20 rounded-none" />
-          <Skeleton className="w-full h-20 rounded-none" />
-          <Skeleton className="w-full h-20 rounded-none" />
+          <h3 className="text-2xl">Notes not found</h3>
         </>
       )}
     </div>

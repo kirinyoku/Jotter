@@ -12,7 +12,7 @@ const NoteCard: FC<NoteCardProps> = ({ note }) => {
   const date = new Date(note.createdAt).toLocaleString();
 
   return (
-    <Card className="bg-secondary rounded-none cursor-pointer hover:bg-primary-foreground transition-colors">
+    <Card className="rounded-none cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors">
       <Link href={`/editor/${note.id}`} className="flex items-center justify-between">
         <div>
           <CardHeader className="pt-3 pb-1">

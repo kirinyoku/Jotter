@@ -22,7 +22,7 @@ interface RootLayoutProps {
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
-      <body className={cn(inter.className, 'h-screen overflow-y-hidden bg-background antialiased')}>
+      <body className={cn(inter.className, 'h-screen overflow-y-hidden bg-secondary antialiased')}>
         <Provider session={undefined}>
           {children}
           <Toaster />

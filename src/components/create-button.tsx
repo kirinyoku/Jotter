@@ -59,8 +59,8 @@ const NoteCreateButton: FC<NoteCreateButtonProps> = ({ className, variant, ...pr
         <TooltipTrigger
           onClick={onClick}
           className={cn(
-            buttonVariants({ variant: 'secondary' }),
-            'rounded-full m-2 h-fit p-2',
+            buttonVariants({ variant: 'ghost' }),
+            'rounded-full m-2 h-fit p-2 bg-accent',
             {
               'cursor-not-allowed opacity-60': isLoading,
             },
