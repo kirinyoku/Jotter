@@ -27,9 +27,7 @@ const AuthForm: FC<AuthFormProps> = ({ className, ...props }) => {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              please sign in with github
-            </span>
+            <span className="px-2 text-muted-foreground">please sign in with github</span>
           </div>
         </div>
         <button

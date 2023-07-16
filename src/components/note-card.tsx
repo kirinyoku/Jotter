@@ -1,24 +1,26 @@
 import { FC } from 'react';
 import { Icons } from './icons';
-import { Note } from '@prisma/client';
-import { Card, CardFooter, CardHeader, CardTitle } from './ui/card';
+import { ClientNote } from '@/types/note';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
 import Link from 'next/link';
 
 interface NoteCardProps {
-  note: Note;
+  note: ClientNote;
 }
 
 const NoteCard: FC<NoteCardProps> = ({ note }) => {
   const date = new Date(note.createdAt).toLocaleString();
+  const firstLineOfNote = note.content.blocks[0]?.data?.text ?? 'No additional text';
 
   return (
-    <Card className="rounded-none cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors">
+    <Card className="rounded-lg cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors">
       <Link href={`/editor/${note.id}`} className="flex items-center justify-between">
         <div>
-          <CardHeader className="pt-3 pb-1">
-            <CardTitle>{note.title}</CardTitle>
+          <CardHeader className="pt-3 pb-0">
+            <CardTitle className="text-2xl">{note.title}</CardTitle>
           </CardHeader>
-          <CardFooter className="pb-2 pt-1">
+          <CardContent className="text-xl py-0">{firstLineOfNote}</CardContent>
+          <CardFooter className="pb-3 pt-1">
             <p className="text-sm">{date}</p>
           </CardFooter>
         </div>

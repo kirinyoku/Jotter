@@ -25,6 +25,7 @@ export async function GET() {
         updatedAt: true,
         createdAt: true,
         isPrivate: true,
+        authorId: true,
       },
       where: {
         authorId: user.id,

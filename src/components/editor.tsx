@@ -6,6 +6,7 @@ import { Note } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { Icons } from '@/components/icons';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { toast } from '@/components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -22,7 +23,7 @@ import '@/styles/editor.css';
 type FormData = z.infer<typeof notePatchSchema>;
 
 interface EditorProps {
-  note: Pick<Note, 'id' | 'title' | 'content' | 'isPrivate'>;
+  note: Pick<Note, 'id' | 'title' | 'content' | 'isPrivate' | 'authorId'>;
 }
 
 const Editor: FC<EditorProps> = ({ note }) => {
@@ -31,7 +32,10 @@ const Editor: FC<EditorProps> = ({ note }) => {
   });
 
   const router = useRouter();
+  const session = useSession();
   const ref = useRef<EditorJS>();
+
+  const isReadOnly = session.data?.user.id === note.authorId ? false : true;
 
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
@@ -79,6 +83,7 @@ const Editor: FC<EditorProps> = ({ note }) => {
         onReady() {
           ref.current = editor;
         },
+        readOnly: isReadOnly,
         placeholder: 'Type here to write your note...',
         inlineToolbar: true,
         data: body.content,

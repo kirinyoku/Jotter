@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import AuthForm from '@/components/auth';
+import AuthForm from '@/components/auth-form';
 
 interface LoginProps {}
 

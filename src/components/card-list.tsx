@@ -1,15 +1,15 @@
 'use client';
 
 import { FC } from 'react';
-import { Note } from '@prisma/client';
 import { Skeleton } from './ui/skeleton';
+import { ClientNote } from '@/types/note';
 import NoteCard from './note-card';
 import useQueryNotes from '@/hooks/useQueryNotes';
 
 const CardList: FC = () => {
   const { data: notes, isLoading } = useQueryNotes();
 
-  const sortArrayByUpdateTime = (array: Note[]) => {
+  const sortArrayByUpdateTime = (array: ClientNote[]) => {
     return array.sort((a, b) => {
       const dateA = new Date(a.updatedAt).getTime();
       const dateB = new Date(b.updatedAt).getTime();
@@ -20,12 +20,12 @@ const CardList: FC = () => {
 
   return (
     <div className="grid gap-2 py-2">
-      <h2 className="text-5xl font-semibold uppercase">my notes</h2>
+      <h2 className="text-4xl font-semibold uppercase">my notes</h2>
       {isLoading ? (
         <>
-          <Skeleton className="w-full h-20 rounded-none bg-card" />
-          <Skeleton className="w-full h-20 rounded-none bg-card" />
-          <Skeleton className="w-full h-20 rounded-none bg-card" />
+          <Skeleton className="w-full h-32 rounded-lg bg-card" />
+          <Skeleton className="w-full h-32 rounded-lg bg-card" />
+          <Skeleton className="w-full h-32 rounded-lg bg-card" />
         </>
       ) : notes ? (
         <>

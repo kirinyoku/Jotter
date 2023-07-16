@@ -38,6 +38,7 @@ const EditorPage: FC<EditorPageProps> = async ({ params }) => {
         title: note.title,
         content: note.content,
         isPrivate: note.isPrivate,
+        authorId: note.authorId,
       }}
     />
   );

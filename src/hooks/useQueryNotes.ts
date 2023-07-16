@@ -1,9 +1,9 @@
 import ky from 'ky';
-import { Note } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
+import type { ClientNote } from '@/types/note';
 
 const useQueryNotes = () => {
-  return useQuery<Note[]>({
+  return useQuery<ClientNote[]>({
     queryKey: ['notes'],
     queryFn: () => ky.get('/api/notes').json(),
   });
