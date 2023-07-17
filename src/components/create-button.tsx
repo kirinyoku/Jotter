@@ -50,7 +50,7 @@ const NoteCreateButton: FC<NoteCreateButtonProps> = ({ className, variant, ...pr
 
     router.refresh();
 
-    router.push(`/editor/${post.id}`);
+    router.push(`/${post.id}`);
   };
 
   return (

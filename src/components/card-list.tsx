@@ -22,17 +22,18 @@ const CardList: FC = () => {
     <div className="grid gap-2 py-2">
       <h2 className="text-4xl font-semibold uppercase">my notes</h2>
       {isLoading ? (
-        <>
-          <Skeleton className="w-full h-32 rounded-lg bg-card" />
-          <Skeleton className="w-full h-32 rounded-lg bg-card" />
-          <Skeleton className="w-full h-32 rounded-lg bg-card" />
-        </>
+        <div className="w-full flex-wrap flex justify-start items-center gap-2">
+          <Skeleton className="w-80 h-28 rounded-lg bg-card" />
+          <Skeleton className="w-80 h-28 rounded-lg bg-card" />
+          <Skeleton className="w-80 h-28 rounded-lg bg-card" />
+          <Skeleton className="w-80 h-28 rounded-lg bg-card" />
+        </div>
       ) : notes ? (
-        <>
+        <div className="w-full flex flex-wrap justify-start items-center gap-2">
           {sortArrayByUpdateTime(notes).map((note) => (
             <NoteCard key={note.id} note={note} />
           ))}
-        </>
+        </div>
       ) : (
         <>
           <h3 className="text-2xl">Notes not found</h3>
