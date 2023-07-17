@@ -6,6 +6,8 @@ import {
   ChevronRight,
   Command,
   CreditCard,
+  Copy,
+  CopyCheck,
   File,
   FileText,
   HelpCircle,
@@ -33,8 +35,10 @@ export type Icon = LucideIcon;
 
 export const Icons = {
   logo: Command,
-  close: X,
   spinner: Loader2,
+  close: X,
+  copy: Copy,
+  copyCheck: CopyCheck,
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   trash: Trash,

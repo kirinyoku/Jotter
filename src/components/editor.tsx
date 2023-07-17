@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { cn } from '@/lib/utils';
+import { env } from '@/lib/env.mjs';
 import { Note } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { Icons } from '@/components/icons';
@@ -9,8 +10,8 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { toast } from '@/components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, buttonVariants } from '@/components/ui/button';
 import { notePatchSchema } from '@/lib/validations/note';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
@@ -19,6 +20,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import useMutationDeleteNote from '@/hooks/useMutationDeleteNote';
 
 import '@/styles/editor.css';
+import { describe } from 'node:test';
 
 type FormData = z.infer<typeof notePatchSchema>;
 
@@ -35,14 +37,33 @@ const Editor: FC<EditorProps> = ({ note }) => {
   const session = useSession();
   const ref = useRef<EditorJS>();
 
+  // If the user of the session is the author of the note, then the edit mode is available.
   const isReadOnly = session.data?.user.id === note.authorId ? false : true;
 
+  // const isReadOnly = true;
+
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [isPrivate, setIsPrivate] = useState<boolean>(note.isPrivate);
 
   const { mutate: deleteNoteById } = useMutationDeleteNote();
+
+  const copyUrl = () => {
+    setIsCopied(true);
+    navigator.clipboard.writeText(`http://localhost:3000/${note.id}`);
+
+    toast({
+      title: 'Copied',
+      description: 'The link to the note was copied.',
+      variant: 'default',
+    });
+
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 3000);
+  };
 
   const deleteNote = (noteId: string) => {
     setIsDeleting(true);
@@ -98,7 +119,7 @@ const Editor: FC<EditorProps> = ({ note }) => {
         },
       });
     }
-  }, [note]);
+  }, [note, isReadOnly]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -157,61 +178,89 @@ const Editor: FC<EditorProps> = ({ note }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid w-full gap-10">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex items-center space-x-10">
-            <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }))}>
+      <div className="grid gap-10">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Link href="/" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}>
               <>
                 <Icons.chevronLeft className="mr-2 h-4 w-4" />
                 Back
               </>
             </Link>
             <Button
-              onClick={() => setIsPrivate((prev) => !prev)}
+              onClick={() => !isReadOnly && setIsPrivate((prev) => !prev)}
               type="button"
+              size="sm"
               variant="ghost"
               className="text-sm text-muted-foreground">
               {isPrivate ? (
                 <span className="flex items-center justify-between gap-1">
-                  {'Private'}
+                  <span className="hidden sm:inline">Private</span>
                   <Icons.lock className="h-4 w-4" />
                 </span>
               ) : (
                 <span className="flex items-center justify-between gap-1">
-                  {'Public'}
+                  <span className="hidden sm:inline">Public</span>
                   <Icons.unlock className="h-4 w-4" />
                 </span>
               )}
             </Button>
+            {!isPrivate && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="text-sm text-muted-foreground"
+                onClick={copyUrl}>
+                <span className="flex items-center justify-between gap-1">
+                  {isCopied ? (
+                    <>
+                      <span className="hidden sm:inline">Copied</span>
+                      <Icons.copyCheck className="w-4 h-4" />
+                    </>
+                  ) : (
+                    <>
+                      <span className="hidden sm:inline">Copy</span>
+                      <Icons.copy className="w-4 h-4" />
+                    </>
+                  )}
+                </span>
+              </Button>
+            )}
           </div>
-          <div className="flex gap-2">
-            <button type="submit" className={cn(buttonVariants())}>
-              {isSaving && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-              <span>Save</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => deleteNote(note.id)}
-              className={cn(buttonVariants({ variant: 'destructive' }))}>
-              {isDeleting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-              <span>Delete</span>
-            </button>
-          </div>
+          {!isReadOnly && (
+            <div className="flex gap-2">
+              <button type="submit" className={cn(buttonVariants({ size: 'sm' }))}>
+                {isSaving && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+                <span>Save</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => deleteNote(note.id)}
+                className={cn(buttonVariants({ variant: 'destructive', size: 'sm' }))}>
+                {isDeleting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+                <span>Delete</span>
+              </button>
+            </div>
+          )}
         </div>
-        <div className="prose prose-stone mx-auto w-[800px] dark:prose-invert">
+        <div className="prose prose-stone mx-auto dark:prose-invert">
           <TextareaAutosize
             autoFocus
             id="title"
+            readOnly={isReadOnly}
             defaultValue={note.title}
             placeholder="Note title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
             {...register('title')}
           />
           <div id="editor" className="min-h-[500px]" />
-          <p className="text-sm text-gray-500">
-            Use <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">Tab</kbd> to open
-            the command menu.
-          </p>
+          {!isReadOnly && (
+            <p className="text-sm text-gray-500">
+              Use <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">Tab</kbd> to
+              open the command menu.
+            </p>
+          )}
         </div>
       </div>
     </form>

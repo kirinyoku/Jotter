@@ -13,6 +13,12 @@
   border-color: theme('colors.border');
 }
 
+.dark .ce-code__textarea {
+  @apply rounded-lg border-none;
+  color: theme('colors.popover.foreground');
+  background-color: theme('colors.popover.DEFAULT');
+}
+
 .dark .ce-inline-tool,
 .dark .ce-conversion-toolbar__label,
 .dark .ce-toolbox__button,

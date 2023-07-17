@@ -6,6 +6,7 @@ import { signIn } from 'next-auth/react';
 import { buttonVariants } from './ui/button';
 import { FC, HTMLAttributes, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { siteConfig } from '@/config/site';
 
 interface AuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -19,7 +20,7 @@ const AuthForm: FC<AuthFormProps> = ({ className, ...props }) => {
     <div className="mx-auto flex w-full flex-col justify-center space-y-4 sm:w-[350px]">
       <div className="flex flex-col space-y-2 text-center">
         <Icons.logo className="mx-auto h-6 w-6" />
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome to Notes</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{`Welcome to ${siteConfig.name}`}</h1>
       </div>
       <div className={cn('grid gap-4', className)} {...props}>
         <div className="relative">

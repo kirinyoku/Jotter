@@ -14,7 +14,7 @@ const NoteCard: FC<NoteCardProps> = ({ note }) => {
 
   return (
     <Card className="rounded-lg cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors">
-      <Link href={`/editor/${note.id}`} className="flex items-center justify-between">
+      <Link href={`/${note.id}`} className="flex items-center justify-between">
         <div>
           <CardHeader className="pt-3 pb-0">
             <CardTitle className="text-2xl">{note.title}</CardTitle>
