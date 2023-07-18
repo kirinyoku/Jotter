@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { FC, useState } from 'react';
 import { Icons } from '@/components/icons';
 import { useRouter } from 'next/navigation';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/useToast';
 import { ButtonProps, buttonVariants } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@radix-ui/react-tooltip';
 import { TooltipProvider } from './ui/tooltip';

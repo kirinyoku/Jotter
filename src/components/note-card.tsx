@@ -18,7 +18,7 @@ const NoteCard: FC<NoteCardProps> = ({ note }) => {
   const firstLineOfNote = note.content?.blocks[0]?.data?.text ?? 'No additional text';
 
   return (
-    <Card className="rounded-none w-80 cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors">
+    <Card className="rounded-none w-80 cursor-pointer bg-secondary hover:bg-primary hover:text-primary-foreground transition-colors">
       <Link href={`/${note.id}`} className="flex items-center justify-between">
         <div className="overflow-hidden overflow-ellipsis">
           <CardHeader className="pt-3 pb-0">

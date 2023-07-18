@@ -2,13 +2,12 @@
 
 import { z } from 'zod';
 import { cn } from '@/lib/utils';
-import { env } from '@/lib/env.mjs';
 import { Note } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { Icons } from '@/components/icons';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/useToast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { notePatchSchema } from '@/lib/validations/note';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -20,7 +19,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 import useMutationDeleteNote from '@/hooks/useMutationDeleteNote';
 
 import '@/styles/editor.css';
-import { describe } from 'node:test';
 
 type FormData = z.infer<typeof notePatchSchema>;
 
@@ -89,12 +87,13 @@ const Editor: FC<EditorProps> = ({ note }) => {
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default;
     const Header = (await import('@editorjs/header')).default;
-    const Embed = (await import('@editorjs/embed'!)).default;
-    const Table = (await import('@editorjs/table'!)).default;
-    const List = (await import('@editorjs/list'!)).default;
-    const Code = (await import('@editorjs/code'!)).default;
-    const LinkTool = (await import('@editorjs/link'!)).default;
-    const InlineCode = (await import('@editorjs/inline-code'!)).default;
+    const Embed = (await import('@editorjs/embed')).default;
+    const Table = (await import('@editorjs/table')).default;
+    const List = (await import('@editorjs/list')).default;
+    const Code = (await import('@editorjs/code')).default;
+    const LinkTool = (await import('@editorjs/link')).default;
+    const InlineCode = (await import('@editorjs/inline-code')).default;
+    const Image = (await import('@editorjs/image')).default;
 
     const body = notePatchSchema.parse(note);
 
@@ -116,6 +115,7 @@ const Editor: FC<EditorProps> = ({ note }) => {
           inlineCode: InlineCode,
           table: Table,
           embed: Embed,
+          image: Image,
         },
       });
     }
@@ -220,7 +220,7 @@ const Editor: FC<EditorProps> = ({ note }) => {
                     </>
                   ) : (
                     <>
-                      <span className="hidden sm:inline">Copy</span>
+                      <span className="hidden sm:inline">Copy Link</span>
                       <Icons.copy className="w-4 h-4" />
                     </>
                   )}

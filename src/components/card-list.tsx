@@ -23,10 +23,10 @@ const CardList: FC = () => {
       <h2 className="text-4xl font-semibold uppercase">my notes</h2>
       {isLoading ? (
         <div className="w-full flex-wrap flex justify-start items-center gap-2">
-          <Skeleton className="w-80 h-28 rounded-lg bg-card" />
-          <Skeleton className="w-80 h-28 rounded-lg bg-card" />
-          <Skeleton className="w-80 h-28 rounded-lg bg-card" />
-          <Skeleton className="w-80 h-28 rounded-lg bg-card" />
+          <Skeleton className="w-80 h-28 rounded-none bg-secondary" />
+          <Skeleton className="w-80 h-28 rounded-none bg-secondary" />
+          <Skeleton className="w-80 h-28 rounded-none bg-secondary" />
+          <Skeleton className="w-80 h-28 rounded-none bg-secondary" />
         </div>
       ) : notes ? (
         <div className="w-full flex flex-wrap justify-start items-center gap-2">

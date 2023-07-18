@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { Icons } from './icons';
 import { siteConfig } from '@/config/site';
 import { FC, HTMLAttributes } from 'react';
 import { useSession } from 'next-auth/react';
@@ -17,7 +18,8 @@ const Header: FC<HeaderProps> = ({ className, ...props }) => {
     return (
       <header className={cn('border-b', className)} {...props}>
         <div className="flex justify-between items-center py-2 container">
-          <Link href="/">
+          <Link href="/" className="flex gap-2 items-center">
+            <Icons.logo />
             <h1 className="text-3xl uppercase font-serif">{siteConfig.name}</h1>
           </Link>
           <UserMenu user={session.data.user} />
