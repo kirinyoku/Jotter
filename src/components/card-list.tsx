@@ -28,7 +28,7 @@ const CardList: FC = () => {
           <Skeleton className="w-80 h-28 rounded-none bg-secondary" />
           <Skeleton className="w-80 h-28 rounded-none bg-secondary" />
         </div>
-      ) : notes ? (
+      ) : notes && notes?.length > 0 ? (
         <div className="w-full flex flex-wrap justify-start items-center gap-2">
           {sortArrayByUpdateTime(notes).map((note) => (
             <NoteCard key={note.id} note={note} />
@@ -36,7 +36,7 @@ const CardList: FC = () => {
         </div>
       ) : (
         <>
-          <h3 className="text-2xl">Notes not found</h3>
+          <h3 className="text-2xl text-center uppercase">notes not found</h3>
         </>
       )}
     </div>
