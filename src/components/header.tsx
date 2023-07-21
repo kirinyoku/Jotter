@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 
 import Link from 'next/link';
 import UserMenu from './user-menu';
+import Search from './search';
 
 interface HeaderProps extends HTMLAttributes<HTMLElement> {}
 
@@ -20,9 +21,12 @@ const Header: FC<HeaderProps> = ({ className, ...props }) => {
         <div className="flex justify-between items-center py-2 container">
           <Link href="/" className="flex gap-2 items-center">
             <Icons.logo />
-            <h1 className="text-3xl uppercase font-serif">{siteConfig.name}</h1>
+            <h1 className="hidden md:block text-3xl uppercase font-serif">{siteConfig.name}</h1>
           </Link>
-          <UserMenu user={session.data.user} />
+          <div className="flex items-center gap-4">
+            <Search />
+            <UserMenu user={session.data.user} />
+          </div>
         </div>
       </header>
     );

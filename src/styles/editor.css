@@ -70,3 +70,7 @@
 .dark .cdx-notify__cross::before {
   background: white;
 }
+
+.image-tool__caption {
+  display: none;
+}
