@@ -19,6 +19,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import useMutationDeleteNote from '@/hooks/useMutationDeleteNote';
 
 import '@/styles/editor.css';
+import { uploadFiles } from '@/lib/uploadthing';
 
 type FormData = z.infer<typeof notePatchSchema>;
 
@@ -93,7 +94,7 @@ const Editor: FC<EditorProps> = ({ note }) => {
     const Code = (await import('@editorjs/code')).default;
     const LinkTool = (await import('@editorjs/link')).default;
     const InlineCode = (await import('@editorjs/inline-code')).default;
-    const Image = (await import('@editorjs/image')).default;
+    const ImageTool = (await import('@editorjs/image')).default;
 
     const body = notePatchSchema.parse(note);
 
@@ -109,13 +110,37 @@ const Editor: FC<EditorProps> = ({ note }) => {
         data: body.content,
         tools: {
           header: Header,
-          linkTool: LinkTool,
           list: List,
           code: Code,
           inlineCode: InlineCode,
           table: Table,
           embed: Embed,
-          image: Image,
+          linkTool: {
+            class: LinkTool,
+            config: {
+              endpoint: '/api/link',
+            },
+          },
+          image: {
+            class: ImageTool,
+            config: {
+              uploader: {
+                async uploadByFile(file: File) {
+                  const [res] = await uploadFiles({
+                    files: [file],
+                    endpoint: 'imageUploader',
+                  });
+
+                  return {
+                    success: 1,
+                    file: {
+                      url: res.fileUrl,
+                    },
+                  };
+                },
+              },
+            },
+          },
         },
       });
     }
